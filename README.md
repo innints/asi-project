@@ -16,15 +16,17 @@ powiązane, ale nie zawierają gotowych rozwiązań ani zadań do wykonania wcze
 
 | Pole | Wartość |
 |---|---|
-| Zespół i integrator Sprintu 1 | TODO |
-| Dataset (id z `docs/datasets.md`) | TODO |
-| Źródło, licencja i cytowanie (DOI) | TODO |
-| Data pobrania danych | TODO |
-| SHA-256 pliku danych (`fingerprint.json`) | TODO |
-| Dane osobowe w zbiorze i sposób postępowania | TODO |
-| Target i klasa pozytywna | TODO |
-| Metryka główna i uzasadnienie | TODO |
-| Użytkownik systemu i decyzja, którą wspiera model | TODO |
+| Zespół i integrator Sprintu 1 | Zespół: s29848 Urszula Kępka, s31105 Maria Chmielewska, s30976 Jan Procner Integrator: Urszula Kępka |
+| Dataset (id z `docs/datasets.md`) | iranian_churn |
+| Źródło, licencja i cytowanie (DOI) | Źródło: UCI Machine Learning Repository  https://archive.ics.uci.edu/dataset/563/iranian+churn+datase
+Licencja: CC BY 4.0 (wymagane uznanie autorstwa)
+DOI: https://doi.org/10.24432/C5JW3Z |
+| Data pobrania danych | 25.10.2026 |
+| SHA-256 pliku danych (`fingerprint.json`) | 90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1 |
+| Dane osobowe w zbiorze i sposób postępowania | Zbiór jest zanonimizowaany nie ma w nim danych jednoznacznie identyfikujących użytkownika jak imie i nazwisko, numer telefonu czy mail. Zawiera wyłącznie statystyki zachowań jak np. grupa wiekowa. Dane nie naruszają RODO i mogą być przetważane do trenowania modelu. |
+| Target i klasa pozytywna | Target: Churn, Klasa pozytywna: 1 (klient odszedł) |
+| Metryka główna i uzasadnienie | F1-score, Zależy nam na zidentyfikowaniu jak największej liczby odchodzących klientów, ale firma nie może pozwolić sobie na rozdawanie rabatów każdemu, więc musimy unikać fałszywych alarmów. W związku z tym metryka F1-score jest optymalna dla tych dwóch celów i pasuje do niezbilansowanych zbioró danych (~15,7% odchodzących klientów).  |
+| Użytkownik systemu i decyzja, którą wspiera model | Użytkownik: Dział zatrzymania klienta Decyzja: Zaoferowanie klientowi rabatu lub specjalnej oferty po 9. miesiącu, aby zatrzymać go w 12. miesiącu.  |
 <!-- KARTA-PROJEKTU:END -->
 
 ## Mapa projektu
