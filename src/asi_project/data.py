@@ -182,10 +182,13 @@ def normalize_input(df: pd.DataFrame) -> pd.DataFrame:
     - nie używa targetu ani statystyk zbioru (żadnych median, średnich ani ``fit``),
     - jest idempotentna: ponowne wywołanie nie zmienia wyniku.
 
-    Domyślnie przycina białe znaki w wartościach tekstowych i zamienia puste napisy na brak.
+    Przycina białe znaki w wartościach tekstowych i zamienia puste napisy na brak.
+    Nie zmienia danych wejściowych ani nie usuwa rekordów lub kolumn.
 
-    TODO (S1): po EDA dopisz reguły dla swojego datasetu, np. oczywiste reprezentacje braków
-    albo konwersję typów. Każdą regułę uzasadnij w notebooku 01.
+    Decyzja EDA dla Iranian Churn (notebook 01): te reguły są wystarczające.
+    Zera aktywności i kod Charge Amount=10 pozostają poprawnymi wartościami wejściowymi;
+    nie zamieniamy ich na braki ani nie narzucamy dodatkowej konwersji typów.
+    Imputacja, skalowanie i kodowanie kategorii należą do Pipeline, dopasowanego na treningu.
     """
     normalized = df.copy()
     for column in normalized.columns:
@@ -197,13 +200,18 @@ def normalize_input(df: pd.DataFrame) -> pd.DataFrame:
 def filter_training_rows(df: pd.DataFrame, contract: DatasetContract) -> pd.DataFrame:
     """Training-only filtering — tylko przy przygotowaniu danych treningowych.
 
-    Domyślnie usuwa rekordy bez targetu (nie da się na nich uczyć ani oceniać modelu).
+    Usuwa rekordy bez targetu, w tym z pustą lub wyłącznie białą etykietą tekstową
+    (nie da się na nich uczyć ani oceniać modelu), także bez wcześniejszej normalizacji.
     Funkcja może tylko usuwać rekordy; nie dodaje ich i nie zmienia wartości.
 
-    TODO (S1): po EDA zdecyduj, czy potrzebne są inne reguły (np. dokładne duplikaty).
-    Decyzję i jej powód zapisz w notebooku 01.
+    Decyzja EDA dla Iranian Churn (notebook 01): nie usuwamy duplikatów, bo identyczne
+    agregaty mogą opisywać różnych klientów. Zachowujemy również sprzeczne etykiety
+    dla takich samych cech oraz wiersze z zerami aktywności lub brakującymi cechami.
+    Braki cech obsłuży preprocessing modelu; brak targetu nie może być imputowany.
+    Ta funkcja nie jest używana podczas predykcji pojedynczego nowego rekordu.
     """
-    keep = df[contract.target].map(label_text).notna()
+    labels = df[contract.target].map(label_text)
+    keep = labels.notna() & labels.ne("")
     return df.loc[keep].copy()
 
 
