@@ -47,11 +47,27 @@ gotowy — sprawdza to `python scripts/check_dod.py`.
 
 <!-- DIAGRAM-V0:START -->
 ```mermaid
-flowchart LR
-    data["TODO: źródło danych"] --> model["TODO: kolejne elementy systemu"]
+
+
+flowchart TD
+
+
+    data["Źródło danych: iranian_churn plik CSV<br>Kontrakt danych: project.yaml<br><i>Sprint 1</i>"] --> model["Warstwa danych: data.py<br>- Input Normalization<br>- Training-only Filtering<br><i>Sprint 1</i>"] --> m5["Model Preprocessing i Baseline: model.py <br> <i>Sprint 1</i>"]-->m4["Reprodukowalny Pipeline Kedro"]--> model3["Artefakt Modelu"]-. "Wczytanie modelu raz" .-> api["API"]
+    subgraph Wdrozenie["Późniejsze Wdrożenie (Cloud Run)"]
+        klient["Dział Zatrzymania Klienta"] -."Korzysta z".-> ui["Formularz UI"]-. "Żądanie predykcji churn" .-> api
+        api-. "Odpowiedź: Churn" .-> ui
+        api -. "Zapisuje stan" .-> db["Baza danych"]
+    end
+
+
+
+
+
+
 ```
 
-TODO: krótki opis diagramu (3–5 zdań).
+
+Diagram przedstawia przebiegi informacji po 6 sprintach. Aspekty już wykonane są oznaczone jako Sprint 1. Pobieramy dane, po weryfikacji z kontraktem i czyszczeniu niepoprawnych danych przechodzą one przez preprocessing  do budowy modelu bazowego. W przyszłości proces zostanie zautomatyzowany przez Kedro i pozwoli na stworzenie artefaktu modelu, który będzie wczytany do API. API będzie obsługiwać żądania wysłane przez Dział Zatrzymania Klienta i zapisywać predykcje do bazy.
 <!-- DIAGRAM-V0:END -->
 
 ## Historia zmian architektury
