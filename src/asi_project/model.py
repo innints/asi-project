@@ -24,17 +24,6 @@ def build_baseline_pipeline(
     numeric_features: Sequence[str],
     categorical_features: Sequence[str],
 ) -> Pipeline:
-    """TODO (S1): Pipeline = model preprocessing (ColumnTransformer) + LogisticRegression.
-
-    Wymagania (sprawdzane w tests/test_project.py):
-    - Pipeline przyjmuje DataFrame z kolumnami ``numeric_features + categorical_features``,
-    - cały model preprocessing jest wewnątrz Pipeline (bez wcześniejszego kodowania ręcznie),
-    - braki danych i kategorie niewidziane w treningu nie przerywają predykcji,
-    - ostatni krok ma ``predict_proba``,
-    - wynik jest deterministyczny (dwa dopasowania na tych samych danych dają te same wyniki).
-
-    Wzorzec znasz z drugich zajęć (notebook 02 onboardingu).
-    """
 
     transformModules = []
 
