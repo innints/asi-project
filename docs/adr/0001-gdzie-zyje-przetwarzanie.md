@@ -1,9 +1,9 @@
 # ADR-1: Gdzie żyją różne rodzaje przetwarzania?
 
-- **Status:** Proponowany
+- **Status:** Zatwierdzony
 - **Sprint:** S2
 - **Autor:** Urszula Kępka
-- **Recenzent:** imię i nazwisko (inna osoba niż autor)
+- **Recenzent:** Maria Chmielewska
 
 ## Kontekst
 
