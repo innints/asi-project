@@ -32,7 +32,7 @@ Instrukcja uruchomienia pipeline. Wykorzystano Kedro, które pozwala uruchomieni
 1. Należy użyć środowiska dedykowaniego dla projektu `asi-ml` (aktywacja poleceniem `conda activate asi-ml`) oraz upewnić się, że Kedro jest zainstalowane `python -m pip install -r requirements/preflight-s2.txt -c constraints.txt` i `kedro info`
 2. Dane należy pobrać zbiór `iranian_churn` poleceniem python `scripts/download_data.py` i muszą znajdować się w `data/01_raw/`, gdyż nie przechwujemy ich w GitHub.
 3. Aby uruchomić pełen potok `kedro run`. Szybki test na mniejszej próbce znajdującej się w GitHub `kedro run --env ci`
-4.  Wyniki znajdują się w pliku `metrics.json` w gółwnym katalogu, a wygenerowany model w `data/06_models`
+4.  Wyniki znajdują się w pliku `data/08_reporting/metrics.json`, a wygenerowany model w `data/06_models/baseline_model.pkl`
 
 ## Mapa projektu
 
