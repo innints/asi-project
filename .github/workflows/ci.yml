@@ -30,14 +30,11 @@ jobs:
           environment-file: environment.yml
           cache-environment: true
 
-      - name: Instalacja zależności i pakietu projektu
-        run: python -m pip install kedro
-        
-      - name: Instalacja zależności projektu
-        run: python -m pip install -r requirements/preflight-s2.txt -c constraints.txt
-
-      - name: Instalacja pakietu projektu
-        run: python -m pip install --no-deps -e .
+      - name: Instalacja wszystkich zależności
+        run: |
+          python -m pip install kedro
+          python -m pip install -r requirements/preflight-s2.txt -c constraints.txt
+          python -m pip install --no-deps -e .
 
       - name: Wersje bibliotek
         run: python scripts/check_env.py
@@ -71,10 +68,10 @@ jobs:
       - name: Raport Definition of Done (Sprint 1)
         if: always()
         run: python scripts/check_dod.py --sprint 1
-        
+
       - name: Uruchomienie potoku Kedro w CI (Sprint 2)
         run: kedro run --env ci
-    
+
       # Future scaffold — kroki kolejnych sprintów (nieaktywne, dopisywane na starcie sprintu):
       # S2: kedro run --env ci (pipeline'y na próbce CI) i testy nodów (tests/pipelines/)
       # S3: WANDB_MODE=disabled, test zapisu i odczytu pakietu modelu
