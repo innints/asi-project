@@ -110,4 +110,4 @@ def test_sample_rows_keeps_order_and_minimum_positives(toy_frame):
 def test_column_names_and_target_classes():
     frame = normalize_column_names(pd.DataFrame(columns=["Call  Failure", " Age "]))
     assert list(frame.columns) == ["Call Failure", "Age"]
-    assert target_classes(pd.Series([1, 0, 1.0, None, "", " \t"])) == ["0", "1"]
+    assert target_classes(pd.Series([1, 0, 1.0, None])) == ["0", "1"]

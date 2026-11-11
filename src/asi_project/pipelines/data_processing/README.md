@@ -1,14 +1,12 @@
 # pipelines/data_processing
 
-Potok czyta ramkę danych `raw_data` i zwraca `prepared_data` z etykietą targetu,
-gotowe do podziału na zbiory treningowy i testowy.
+> Scaffold for Sprint 2 — do not implement before this sprint.
 
-1. `validate_data_contract` ujednolica nazwy kolumn i sprawdza dane za pomocą `assert_valid`,
-   korzystając z konfiguracji projektu i rejestru datasetów.
-2. `normalize_input` normalizuje wartości wejściowe.
-3. `filter_training_rows` usuwa rekordy bez etykiety targetu.
+Pliki, które powstaną w Sprincie 2: definicje nodów i definicja pipeline'u.
 
-Wszystkie trzy kroki korzystają z funkcji z `src/asi_project/data.py`.
-Kedro wykrywa potok przez `create_pipeline()`. Można to sprawdzić poleceniem
-`kedro registry list`. Data Catalog określa źródło `raw_data` i zapis `prepared_data`
-w `data/02_intermediate/`.
+Kontrakt:
+
+- kolejność: walidacja kontraktu → input normalization → training-only filtering;
+- nody korzystają z istniejących funkcji `validate`, `normalize_input` i `filter_training_rows`
+  (`src/asi_project/data.py`) — bez kopiowania logiki;
+- wyjście: dane gotowe do splitu (warstwa `data/02_intermediate/`, poza gitem).
