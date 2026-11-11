@@ -5,7 +5,8 @@ wewnątrz sklearn Pipeline. Dzięki temu przy predykcji wykonują się dokładni
 które zostały dopasowane na X_train, a cały model można zapisać jako jeden artefakt.
 """
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
+from pathlib import Path
 
 from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyClassifier
@@ -13,6 +14,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from asi_project.config import load_pipeline_parameters
 
 
 def make_dummy() -> DummyClassifier:
@@ -23,7 +26,12 @@ def make_dummy() -> DummyClassifier:
 def build_baseline_pipeline(
     numeric_features: Sequence[str],
     categorical_features: Sequence[str],
+    *,
+    model_parameters: Mapping[str, int] | None = None,
 ) -> Pipeline:
+    """Buduje preprocessing i klasyfikator z parametrami przekazanymi przez wywołującego."""
+    if model_parameters is None:
+        model_parameters = load_pipeline_parameters(Path(__file__).parent)["logistic_regression"]
 
     transformModules = []
 
@@ -52,7 +60,7 @@ def build_baseline_pipeline(
     pipeline = Pipeline(
         steps=[
             ("preprocessor", preprocessor),
-            ("classifier", LogisticRegression(random_state=42, max_iter=1000)),
+            ("classifier", LogisticRegression(**model_parameters)),
         ]
     )
 

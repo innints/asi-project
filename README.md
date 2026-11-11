@@ -80,7 +80,7 @@ Najważniejsze pliki Sprintu 1:
 
 | Plik | Kto edytuje | Po co |
 |---|---|---|
-| `project.yaml` | zespół | wybrany dataset, typy cech, parametry splitu |
+| `project.yaml` | zespół | wybrany dataset i typy cech |
 | `src/asi_project/data.py` | zespół (miejsca oznaczone TODO) | input normalization i training-only filtering |
 | `src/asi_project/model.py` | zespół (TODO) | sklearn Pipeline z model preprocessing |
 | `notebooks/01_eda.ipynb` | zespół | EDA i decyzje o danych |
@@ -160,7 +160,7 @@ z tych elementów.
 | Element / katalog | Sprint | Rola |
 |---|---|---|
 | `src/asi_project/datasets.yaml` | S1 | kontrakt datasetów (prowadząca) |
-| `project.yaml` | S1 | decyzje zespołu: dataset, typy cech, split |
+| `project.yaml` | S1 | decyzje zespołu o datasecie i typach cech |
 | `src/asi_project/` (`config`, `data`, `model`, `metrics`, `download`) | S1 | kontrakt danych, trzy typy przetwarzania, baseline, metryki |
 | `notebooks/` | S1 | EDA i baseline |
 | `data/01_raw/` | S1 | pełne dane (poza gitem) i próbka CI |
