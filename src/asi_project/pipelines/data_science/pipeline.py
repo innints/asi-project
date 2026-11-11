@@ -1,5 +1,4 @@
 import pandas as pd
-from kedro.pipeline import Pipeline, node
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
@@ -36,11 +35,13 @@ def evaluate_model(
     }
 
 
-def create_pipeline(**kwargs) -> Pipeline:
+def create_pipeline(**kwargs):
+    from kedro.pipeline import Pipeline, node
+
     evaluation_node = node(
         evaluate_model,
-        inputs=["baseline-model", "X_test", "y_test", "params:split"],
-        outputs="baseline_metrics",
+        inputs=["baseline_model", "X_test", "y_test", "params:split"],
+        outputs="metrics",
         name="evaluate_model",
     )
     return Pipeline(create_training_nodes() + [evaluation_node])
