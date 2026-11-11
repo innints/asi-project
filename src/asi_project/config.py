@@ -1,6 +1,7 @@
 """Konfiguracja projektu zespołu i rejestr zatwierdzonych datasetów.
 
-- ``project.yaml`` (katalog główny repo): decyzje zespołu — dataset, typy cech, parametry splitu.
+- ``project.yaml`` (katalog główny repo): wybór datasetu, typy cech i ścieżki Sprintu 1.
+- ``conf/base/parameters.yml``: parametry podziału danych i modelu bazowego.
 - ``datasets.yaml`` (ten pakiet): kontrakt prowadzącej — target, klasa pozytywna,
   ALLOWED / EXCLUDED FEATURES, moment predykcji, strategia splitu. Zespół go nie edytuje.
 """
@@ -127,12 +128,19 @@ def load_registry(path: Path = REGISTRY_PATH) -> dict[str, DatasetContract]:
     return {dataset_id: _parse_contract(dataset_id, spec) for dataset_id, spec in raw.items()}
 
 
+def load_pipeline_parameters(root: Path | None = None) -> dict[str, Any]:
+    """Wczytuje parametry bazowe dla notebooków i narzędzi uruchamianych poza Kedro."""
+    return _read_yaml(find_repo_root(root) / "conf" / "base" / "parameters.yml")
+
+
 def load_project_config(root: Path | None = None) -> ProjectConfig:
     """Wczytuje ``project.yaml`` zespołu."""
     root = find_repo_root(root)
     raw = _read_yaml(root / PROJECT_FILE)
     features = raw.get("features") or {}
     split = raw.get("split") or {}
+    if "test_size" not in split or "random_state" not in split:
+        split = load_pipeline_parameters(root)["split"] | split
     paths = raw.get("paths") or {}
     dataset_id = raw.get("dataset")
     return ProjectConfig(
@@ -140,8 +148,8 @@ def load_project_config(root: Path | None = None) -> ProjectConfig:
         dataset_id=str(dataset_id) if dataset_id else None,
         numeric_features=tuple(str(name) for name in features.get("numeric") or ()),
         categorical_features=tuple(str(name) for name in features.get("categorical") or ()),
-        test_size=float(split.get("test_size", 0.2)),
-        random_state=int(split.get("random_state", 42)),
+        test_size=float(split["test_size"]),
+        random_state=int(split["random_state"]),
         ci_sample_path=root / str(paths.get("ci_sample", "data/01_raw/sample.csv")),
         metrics_path=root / str(paths.get("metrics", "metrics.json")),
     )
