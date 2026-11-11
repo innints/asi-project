@@ -80,7 +80,7 @@ def label_text(value: object) -> str | None:
 
 def target_classes(target: pd.Series) -> list[str]:
     """Posortowane, unikalne klasy targetu (w postaci ``label_text``), bez braków."""
-    labels = {label for label in target.map(label_text) if isinstance(label, str)}
+    labels = {label for label in target.map(label_text) if isinstance(label, str) and label}
     return sorted(labels)
 
 
