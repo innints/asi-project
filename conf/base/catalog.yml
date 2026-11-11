@@ -1,5 +1,19 @@
-# Sprint 2 — szablon katalogu danych Kedro.
-# TODO (zespół): zdefiniuj wejścia/wyjścia w formacie Kedro Data Catalog,
-# np. raw_data, dane po przetworzeniu, model i metryki.
-# Użyj nazw klas zakończonych na Dataset, zgodnie z wersją Kedro.
-{}
+# Wejście pełnego zbioru Iranian Churn.
+raw_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/iranian_churn/Customer Churn.csv
+
+# Wyjście data_processing i wejście data_science.
+prepared_data:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/prepared_data.csv
+  save_args:
+    index: false
+
+baseline_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/baseline_model.pkl
+
+metrics:
+  type: json.JSONDataset
+  filepath: data/08_reporting/metrics.json
