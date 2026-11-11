@@ -29,7 +29,7 @@ Podział:
 | Wielkość | Wartość | Skąd pochodzi |
 |---|---|---|
 | Kolumny wykluczone | Customer Value | `docs/datasets.md` |
-| Ilość rekordów | 3150 | `fingerprint.json` |
+| Ilość rekordów | 3150 | `data/01_raw/Customer Churn.csv` `docs/datasets.md` |
 
 ## Odrzucone alternatywy
 
