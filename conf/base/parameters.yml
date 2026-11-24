@@ -10,3 +10,15 @@ logistic_regression:
 wandb:
   entity: "s29848-pjatk"
   project: "asi-project"
+
+autogluon:
+  enabled: true
+  eval_metric: f1
+  output_dir: data/06_models/autogluon
+  experiments:
+    - name: medium-60s
+      presets: medium_quality
+      time_limit: 60
+    - name: good-120s
+      presets: good_quality
+      time_limit: 120
