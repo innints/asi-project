@@ -6,3 +6,7 @@ split:
 logistic_regression:
   random_state: 42
   max_iter: 1000
+
+wandb:
+  entity: "s29848-pjatk"
+  project: "asi-project"
