@@ -27,9 +27,7 @@ def get_data_fingerprint(fingerprint_path: Path | None = None) -> str:
         config = load_project_config()
         if not config.dataset_id:
             raise ValueError("Nie wybrano datasetu w project.yaml.")
-        fingerprint_path = (
-            config.root / "data" / "01_raw" / config.dataset_id / "fingerprint.json"
-        )
+        fingerprint_path = config.root / "data" / "01_raw" / config.dataset_id / "fingerprint.json"
 
     payload = json.loads(fingerprint_path.read_text(encoding="utf-8"))
     sha256 = payload.get("sha256")

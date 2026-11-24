@@ -71,6 +71,7 @@ def test_gitignore_rules(repo_root):
         "conf/local/README.md": False,
         "conf/local/credentials.yml": True,
         "conf/base/README.md": False,
+        "wandb/offline-run-test/run-test.wandb": True,
     }
     for path, should_be_ignored in expected.items():
         result = subprocess.run(

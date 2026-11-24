@@ -32,6 +32,9 @@ dist/
 .ipynb_checkpoints/
 .venv/
 
+# --- Lokalne runy eksperymentów --------------------------------------------
+/wandb/
+
 # --- Systemowe / edytory ---------------------------------------------------
 .DS_Store
 Thumbs.db
