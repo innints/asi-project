@@ -11,9 +11,12 @@ from asi_project.model_package import load_model_package
 
 def run_smoke_test() -> None:
     import wandb
+
     config = load_project_config()
     contract = get_contract(config)
-    params = yaml.safe_load((config.root / "conf" / "base" / "parameters.yml").read_text(encoding="utf-8"))
+    params = yaml.safe_load(
+        (config.root / "conf" / "base" / "parameters.yml").read_text(encoding="utf-8")
+    )
 
     entity = params["wandb"]["entity"]
     project = params["wandb"]["project"]
@@ -41,7 +44,6 @@ def run_smoke_test() -> None:
             f"Nieoczekiwane klasy w predykcjach: {actual_values} (dozwolone: {allowed_values})"
         )
 
-    
         print(f"Artefakt: {artifact_ref}")
         print(f"Format modelu: {metadata.get('model_format')} | Git SHA: {metadata.get('git_sha')}")
         print(f"Predykcje dla 5 rekordów: {predictions.astype(int).tolist()}")

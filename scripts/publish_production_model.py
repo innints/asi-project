@@ -2,9 +2,15 @@ import importlib.metadata
 from typing import Any
 
 import pandas as pd
-
 import yaml
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
+)
+
 from asi_project.config import get_contract, load_project_config
 from asi_project.data import (
     assert_valid,
@@ -17,14 +23,16 @@ from asi_project.data import (
 from asi_project.model_package import save_model_package
 from asi_project.pipelines.data_science.tracking import get_data_fingerprint, get_git_sha
 
-def _get_library_versions() -> dict[str,str]:
-    versions: dict[str,str] = {}
+
+def _get_library_versions() -> dict[str, str]:
+    versions: dict[str, str] = {}
     for pkg in ("scikit-learn", "pandas", "numpy", "joblib", "autogluon.tabular", "wandb"):
         try:
             versions[pkg] = importlib.metadata.version(pkg)
         except importlib.metadata.PackageNotFoundError:
             versions[pkg] = "unknown"
     return versions
+
 
 def _compute_metrics(y_true: pd.Series, y_pred: pd.Series) -> dict[str, Any]:
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
@@ -36,13 +44,16 @@ def _compute_metrics(y_true: pd.Series, y_pred: pd.Series) -> dict[str, Any]:
         "confusion_matrix": {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)},
     }
 
+
 def main() -> None:
     import wandb
     from autogluon.tabular import TabularPredictor
 
     config = load_project_config()
     contract = get_contract(config)
-    params = yaml.safe_load((config.root / "conf" / "base" / "parameters.yml").read_text(encoding="utf-8"))
+    params = yaml.safe_load(
+        (config.root / "conf" / "base" / "parameters.yml").read_text(encoding="utf-8")
+    )
 
     df_raw = load_dataset(config, contract, mode="full")
     assert_valid(df_raw, contract, config)
