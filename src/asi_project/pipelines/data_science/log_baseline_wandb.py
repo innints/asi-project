@@ -1,33 +1,16 @@
-import hashlib
 import json
-import subprocess
 from pathlib import Path
 
 import wandb
 import yaml
 
-
-# identyfikator ostatniego commita, żeby było wiadomo na jakim stanie repo był run
-def get_git_sha() -> str:
-    try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
-    except Exception:
-        return "unknown"
-
-
-# sprawdzenie czy wszyscy pracują na tych samych danych
-def get_data_fingerprint(raw_dir: Path = Path("data/01_raw")) -> str:
-    hasher = hashlib.sha256()
-    for path in sorted(raw_dir.glob("*")):
-        if path.is_file():
-            hasher.update(path.read_bytes())
-    return hasher.hexdigest()[:16]
+from asi_project.pipelines.data_science.tracking import get_data_fingerprint, get_git_sha
 
 
 # zapisanie danych do W&B
 def main() -> None:
-    metrics_report = json.loads(Path("data/08_reporting/metrics.json").read_text())
-    params = yaml.safe_load(Path("conf/base/parameters.yml").read_text())
+    metrics_report = json.loads(Path("data/08_reporting/metrics.json").read_text(encoding="utf-8"))
+    params = yaml.safe_load(Path("conf/base/parameters.yml").read_text(encoding="utf-8"))
 
     wandb_cfg = params["wandb"]
     metrics = metrics_report["metrics"]

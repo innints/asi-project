@@ -1,0 +1,3 @@
+# Pełne eksperymenty AutoGluona wykonujemy lokalnie, a nie w CI.
+autogluon:
+  enabled: false

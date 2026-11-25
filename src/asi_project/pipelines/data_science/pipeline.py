@@ -8,6 +8,7 @@ from sklearn.metrics import (
 )
 from sklearn.pipeline import Pipeline as SklearnPipeline
 
+from .autogluon_nodes import run_autogluon_experiments
 from .training import create_training_nodes
 
 
@@ -44,4 +45,18 @@ def create_pipeline(**kwargs):
         outputs="metrics",
         name="evaluate_model",
     )
-    return Pipeline(create_training_nodes() + [evaluation_node])
+    autogluon_node = node(
+        run_autogluon_experiments,
+        inputs=[
+            "X_train",
+            "y_train",
+            "X_test",
+            "y_test",
+            "params:autogluon",
+            "params:wandb",
+            "params:split",
+        ],
+        outputs="autogluon_metrics",
+        name="run_autogluon_experiments",
+    )
+    return Pipeline(create_training_nodes() + [evaluation_node, autogluon_node])
