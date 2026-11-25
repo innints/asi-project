@@ -18,14 +18,14 @@ Musieliśmy wybrać jeden model, który trafi jako artefakt `production` do W&B 
 
 1. **Wybór modelu produkcyjnego: `autogluon-medium-60s`** (najlepszy podmodel: `WeightedEnsemble_L2` oparty na `LightGBM`, opublikowany w W&B jako `iranian-churn-model:production`).
 2. **Format pakietu modelu (`src/asi_project/model_package.py`):**
-   - Katalog pakietu zawiera natywny katalog predyktora AutoGluon (`predictor/`) oraz plik `metadata.json`.
+   - Katalog pakietu zawiera natywny katalog predyktora AutoGluon (`model/`) oraz plik `metadata.json`.
    - `metadata.json` przechowuje: `model_name`, `model_format`, `best_submodel`, listę `features`, `target`, `positive_class`, słownik `metrics`, `git_sha`, `data_fingerprint` oraz `library_versions`.
    - Cały katalog publikowany jest jako jeden `wandb.Artifact` typu `model` z aliasem `production`.
 
 ## Uzasadnienie
 
 - **Dlaczego nie `baseline-logistic-regression`?** Mimo tego, że rozmiar oraz czas predykcji jest minimalny, jakość predykcji (`F1 = 0.5442`) jest za niska dla zastosowań CRM, ponieważ za dużo jest niewykrytych odejść klientów.
-- **Dlaczego nie `autogluon-good-120s`?** Zysk jakościowy od `autogluon-medium-60s` różni się niewiele, bo tylko 0.0078, ale koszt zasobów rośnie prawie dwukrotnie. Zurzycie RAM rośnie o około 31 MB, a czas predylkacji wydłuża się aż o 50%.
+- **Dlaczego nie `autogluon-good-120s`?** Zysk jakościowy od `autogluon-medium-60s` różni się niewiele, bo tylko 0.0078, ale koszt zasobów rośnie prawie dwukrotnie. Rozmiar paczki na dysku rośnie o około 31 MB, a czas predylkacji wydłuża się aż o 50%.
 - **Dlaczego `autogluon-medium-60s` zamiast `120s`?** Wynik jakościowy i rozmiar jest identyczny jak w wariancie 120-sekundowy przy krótszym czasie treningu.
 - **Format paczki (`predictor/` + `metadata.json`):** Oddziela ładowanie modelu od konkretnej biblioteki (wspólne funkcje `save_model_package` / `load_model_package` obsługują zarówno `joblib`, jak i `autogluon`) i gwarantuje pełną odtwarzalność w API.
 
